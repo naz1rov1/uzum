@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { Routes, Route } from "react-router-dom"; 
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Products from "./pages/Products";
 import ShopDetail from "./pages/ShopDetail";
@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 const App = () => {
   const [cart, setCart] = useState({});
 
+
   const totalPrice = useMemo(() => {
     return Object.values(cart).reduce(
       (total, item) => total + item.price * item.count,
@@ -15,55 +16,61 @@ const App = () => {
     );
   }, [cart]);
 
-  const totalCount = useMemo(() => {
-    return Object.values(cart).reduce((total, item) => total + item.count, 0);
-  }, [cart]);
+
+const totalCount = useMemo(() => {
+  return Object.keys(cart).length; 
+}, [cart]);
+
 
   const addToCart = useCallback((product) => {
-    setCart((c) => {
-      const existing = c[product.id];
+    const id = String(product.id);
+    setCart((prev) => {
+      const existing = prev[id];
       if (existing) {
         return {
-          ...c,
-          [product.id]: { ...existing, count: existing.count + 1 },
-        };
-      } else {
-        return {
-          ...c,
-          [product.id]: { ...product, count: 1 },
+          ...prev,
+          [id]: { ...existing, count: existing.count + 1 },
         };
       }
+      return {
+        ...prev,
+        [id]: {
+          ...product,
+          count: 1,
+        },
+      };
     });
   }, []);
+
 
   const increase = useCallback((id) => {
+    const key = String(id);
     setCart((c) => {
-      const item = c[id];
-      if (item) {
-        return {
-          ...c,
-          [id]: { ...item, count: item.count + 1 },
-        };
-      }
-      return c;
+      const item = c[key];
+      if (!item) return c;
+      return {
+        ...c,
+        [key]: { ...item, count: item.count + 1 },
+      };
     });
   }, []);
 
+
   const decrease = useCallback((id) => {
+    const key = String(id);
     setCart((c) => {
-      const item = c[id];
+      const item = c[key];
       if (!item) return c;
 
       if (item.count === 1) {
         const copy = { ...c };
-        delete copy[id];
+        delete copy[key];
         return copy;
-      } else {
-        return {
-          ...c,
-          [id]: { ...item, count: item.count - 1 },
-        };
       }
+      return {
+        ...c,
+        [key]: { ...item, count: item.count - 1 },
+      };
     });
   }, []);
 
@@ -94,7 +101,7 @@ const App = () => {
           }
         />
       </Routes>
-      <Footer/>
+      <Footer />
     </>
   );
 };

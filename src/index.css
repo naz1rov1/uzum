@@ -544,3 +544,9 @@ hr {
 .footer-bottom p {
   margin-top: 10px;
 }
+
+.top-right select {
+  outline: none;
+  border: none;
+}
+

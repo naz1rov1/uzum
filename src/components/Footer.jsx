@@ -1,57 +1,55 @@
 import React from "react";
-
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="footer">
       <div className="footer-top container">
         <div className="footer-column">
-          <h4>Biz haqimizda</h4>
-          <a href="#">Topshirish punktlari</a>
-          <a href="#">Vakansiyalar</a>
+          <h4>{t("about_us")}</h4>
+          <a href="#">{t("submission_points")}</a>
+          <a href="#">{t("vacancies")}</a>
         </div>
 
         <div className="footer-column">
-          <h4>Foydalanuvchilarga</h4>
-          <a href="#">Biz bilan bog‘lanish</a>
-          <a href="#">Savol-Javob</a>
+          <h4>{t("for_users")}</h4>
+          <a href="#">{t("contact_us")}</a>
+          <a href="#">{t("faq")}</a>
         </div>
 
         <div className="footer-column">
-          <h4>Tadbirkorlarga</h4>
-          <a href="#">Uzumda soting</a>
-          <a href="#">Sotuvchi kabinetiga kirish</a>
-          <a href="#">Topshirish punktini ochish</a>
+          <h4>{t("for_entrepreneurs")}</h4>
+          <a href="#">{t("sell_on_uzum")}</a>
+          <a href="#">{t("seller_dashboard")}</a>
+          <a href="#">{t("open_submission_point")}</a>
         </div>
 
         <div className="footer-column">
-          <h4>Ilovani yuklab olish</h4>
+          <h4>{t("download_app")}</h4>
           <div className="store-buttons">
             <p>
-              {" "}
-              <i class="fa-brands fa-google-play"></i>  google play 
+              <i className="fa-brands fa-google-play"></i> Google Play
             </p>
-
             <p>
-              {" "}
-              <i class="fa-brands fa-apple"></i>
-              appStore
+              <i className="fa-brands fa-apple"></i> App Store
             </p>
           </div>
 
-          <h4 className="social-title">Uzum ijtimoiy tarmoqlarda</h4>
+          <h4 className="social-title">{t("social_media")}</h4>
           <div className="social-icons">
             <a href="#">
-              <i class="fa-brands fa-instagram"></i>
+              <i className="fa-brands fa-instagram"></i>
             </a>
             <a href="#">
-              <i class="fa-brands fa-telegram"></i>
+              <i className="fa-brands fa-telegram"></i>
             </a>
             <a href="#">
-              <i class="fa-brands fa-facebook"></i>
+              <i className="fa-brands fa-facebook"></i>
             </a>
             <a href="#">
-              <i class="fa-brands fa-youtube"></i>
+              <i className="fa-brands fa-youtube"></i>
             </a>
           </div>
         </div>
@@ -61,13 +59,10 @@ const Footer = () => {
 
       <div className="footer-bottom container">
         <div className="links">
-          <a href="#">Maxfiylik kelishuvi</a>
-          <a href="#">Foydalanuvchi kelishuvi</a>
+          <a href="#">{t("privacy_policy")}</a>
+          <a href="#">{t("terms_of_use")}</a>
         </div>
-        <p>
-          ©2025 XК MCHJ «UZUM MARKET». STIR 309376127. Barcha huquqlar
-          himoyalangan.
-        </p>
+        <p>©2025 XК MCHJ «UZUM MARKET». STIR 309376127. {t("copyright")}.</p>
       </div>
     </footer>
   );

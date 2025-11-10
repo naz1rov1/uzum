@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useTranslation } from "react-i18next";
 
 const Products = ({ cart, addToCart, increase, decrease }) => {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,26 +15,31 @@ const Products = ({ cart, addToCart, increase, decrease }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <h2 style={{ textAlign: "center" }}>Yuklanmoqda...</h2>;
+  if (loading)
+    return (
+      <h2 style={{ textAlign: "center" }}>
+        {t("loading") || "Yuklanmoqda..."}
+      </h2>
+    );
 
   return (
     <div className="products-container">
-      <h2>Mahsulotlar</h2>
+      <h2>{t("products") || "Mahsulotlar"}</h2>
       <div className="products-grid">
         {products.map((item) => {
-          const inCart = cart[item.id];
+          const inCart = cart[String(item.id)];
           return (
-            <div className="product-card" key={item.id}>
+            <div className="product-card" key={`product-${item.id}`}>
               <div className="favorite">
-                <i class="fa-regular fa-heart"></i>
+                <i className="fa-regular fa-heart"></i>
               </div>
               <img src={item.thumbnail} alt={item.title} />
               <div className="info">
-                <h3>{item.price} so'm</h3>
+                <h3>{item.price.toLocaleString()} so'm</h3>
                 <p className="brand">{item.brand}</p>
                 <p className="desc">{item.description}</p>
                 <div className="rating">
-                  <i class="fa-regular fa-star"></i> {item.rating}{" "}
+                  <i className="fa-regular fa-star"></i> {item.rating}{" "}
                   <span>({item.stock} reviews)</span>
                 </div>
               </div>
@@ -46,7 +52,8 @@ const Products = ({ cart, addToCart, increase, decrease }) => {
                 </div>
               ) : (
                 <button className="add-btn" onClick={() => addToCart(item)}>
-                  <i class="fa-solid fa-basket-shopping"></i> Savatchaga
+                  <i className="fa-solid fa-basket-shopping"></i>{" "}
+                  {t("add_to_cart") || "Savatchaga"}
                 </button>
               )}
             </div>
@@ -57,4 +64,4 @@ const Products = ({ cart, addToCart, increase, decrease }) => {
   );
 };
 
-export default Products;
+export default React.memo(Products);
