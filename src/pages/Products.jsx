@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Products = ({ cart, addToCart, increase, decrease }) => {
-  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -17,14 +17,13 @@ const Products = ({ cart, addToCart, increase, decrease }) => {
 
   if (loading)
     return (
-      <h2 style={{ textAlign: "center" }}>
-        {t("loading") || "Yuklanmoqda..."}
-      </h2>
+      <h2 style={{ textAlign: "center", marginTop: "40px" }}>Yuklanmoqda...</h2>
     );
 
   return (
     <div className="products-container">
-      <h2>{t("products") || "Mahsulotlar"}</h2>
+      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Mahsulotlar</h2>
+
       <div className="products-grid">
         {products.map((item) => {
           const inCart = cart[String(item.id)];
@@ -33,11 +32,19 @@ const Products = ({ cart, addToCart, increase, decrease }) => {
               <div className="favorite">
                 <i className="fa-regular fa-heart"></i>
               </div>
-              <img src={item.thumbnail} alt={item.title} />
+
+              {/* Rasmga bosilganda detail sahifaga o'tadi */}
+              <img
+                src={item.thumbnail}
+                alt={item.title}
+                onClick={() => navigate(`/product/${item.id}`)}
+                style={{ cursor: "pointer" }}
+              />
+
               <div className="info">
                 <h3>{item.price.toLocaleString()} so'm</h3>
                 <p className="brand">{item.brand}</p>
-                <p className="desc">{item.description}</p>
+                <p className="desc">{item.description.slice(0, 60)}...</p>
                 <div className="rating">
                   <i className="fa-regular fa-star"></i> {item.rating}{" "}
                   <span>({item.stock} reviews)</span>
@@ -52,8 +59,7 @@ const Products = ({ cart, addToCart, increase, decrease }) => {
                 </div>
               ) : (
                 <button className="add-btn" onClick={() => addToCart(item)}>
-                  <i className="fa-solid fa-basket-shopping"></i>{" "}
-                  {t("add_to_cart") || "Savatchaga"}
+                  <i className="fa-solid fa-basket-shopping"></i> Savatchaga
                 </button>
               )}
             </div>

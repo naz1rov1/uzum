@@ -35,7 +35,7 @@ const ShopDetail = ({ cart, increase, decrease, totalPrice }) => {
                 <button onClick={() => decrease(id)}>-</button>
                 <span>{item.count}</span>
                 <button onClick={() => increase(id)}>+</button>
-              </div>
+              </div>  
             </div>
 
             <div className="cart-total">

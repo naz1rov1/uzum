@@ -1,14 +1,14 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Products from "./pages/Products";
-import ShopDetail from "./pages/ShopDetail";
 import Footer from "./components/Footer";
+import Products from "./pages/Products";
+import DetailProducts from "./pages/Detailproducts";
 
 const App = () => {
   const [cart, setCart] = useState({});
 
-
+  // jami narxni hisoblash
   const totalPrice = useMemo(() => {
     return Object.values(cart).reduce(
       (total, item) => total + item.price * item.count,
@@ -16,12 +16,12 @@ const App = () => {
     );
   }, [cart]);
 
+  // jami mahsulotlar soni
+  const totalCount = useMemo(() => {
+    return Object.keys(cart).length;
+  }, [cart]);
 
-const totalCount = useMemo(() => {
-  return Object.keys(cart).length; 
-}, [cart]);
-
-
+  // savatchaga qo‘shish
   const addToCart = useCallback((product) => {
     const id = String(product.id);
     setCart((prev) => {
@@ -34,15 +34,12 @@ const totalCount = useMemo(() => {
       }
       return {
         ...prev,
-        [id]: {
-          ...product,
-          count: 1,
-        },
+        [id]: { ...product, count: 1 },
       };
     });
   }, []);
 
-
+  // sonini oshirish
   const increase = useCallback((id) => {
     const key = String(id);
     setCart((c) => {
@@ -55,7 +52,7 @@ const totalCount = useMemo(() => {
     });
   }, []);
 
-
+  // sonini kamaytirish
   const decrease = useCallback((id) => {
     const key = String(id);
     setCart((c) => {
@@ -78,6 +75,7 @@ const totalCount = useMemo(() => {
     <>
       <Header totalCount={totalCount} totalPrice={totalPrice} />
       <Routes>
+        {/* Barcha mahsulotlar sahifasi */}
         <Route
           path="/"
           element={
@@ -89,14 +87,16 @@ const totalCount = useMemo(() => {
             />
           }
         />
+
+        {/* Mahsulot tafsilot sahifasi */}
         <Route
-          path="/cart"
+          path="/product/:id"
           element={
-            <ShopDetail
+            <DetailProducts
               cart={cart}
+              addToCart={addToCart}
               increase={increase}
               decrease={decrease}
-              totalPrice={totalPrice}
             />
           }
         />
